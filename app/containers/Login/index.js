@@ -7,9 +7,11 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import { Button } from 'antd';
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { FormWrapper, FieldWrapper } from './StyledComponents';
+import { FormWrapper, FieldWrapper, LoginWrapper } from './StyledComponents';
 import globalMessages from 'containers/App/messages';
 import formatMessage from 'containers/LanguageProvider/formatMessage';
 import { InputField } from 'components/ReduxForm';
@@ -30,13 +32,7 @@ export function Login({ handleSubmit }) {
   };
 
   return (
-    <div>
-      <Helmet>
-        <title>Login</title>
-        <meta name="description" content="Description of Login" />
-      </Helmet>
-
-      {/* <FormattedMessage {...messages.header} /> */}
+    <LoginWrapper>
       <FormWrapper>
         <FieldWrapper>
           <div>
@@ -55,14 +51,19 @@ export function Login({ handleSubmit }) {
           </div>
           <Field
             name={fields.PASSWORD}
-            component="input"
-            type="text"
+            component={InputField}
+            type="password"
             placeholder="Password..."
           />
         </FieldWrapper>
-        <button onClick={handleSubmit(onClickSubmit)}> Submit </button>
+        <Button 
+          type="primary"
+          onClick={handleSubmit(onClickSubmit)}
+        > 
+          Login 
+        </Button>
       </FormWrapper>
-    </div>
+    </LoginWrapper>
   );
 }
 

@@ -1,27 +1,33 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Layout, Menu, Breadcumb } from 'antd';
 
-import A from './A';
-import Img from './Img';
-import NavBar from './NavBar';
 import HeaderLink from './HeaderLink';
-import Banner from './banner.jpg';
 import messages from './messages';
 
 function Header() {
+  const { Header } = Layout
   return (
     <div>
-      <A href="https://www.reactboilerplate.com/">
-        <Img src={Banner} alt="react-boilerplate - Logo" />
-      </A>
-      <NavBar>
-        <HeaderLink to="/">
-          <FormattedMessage {...messages.home} />
-        </HeaderLink>
-        <HeaderLink to="/features">
-          <FormattedMessage {...messages.features} />
-        </HeaderLink>
-      </NavBar>
+      <Layout className="layout">
+        <Header> 
+          <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['2']}
+          style={{ lineHeight: '64px' }}
+        >
+          <Menu.Item key="1" to="/"><FormattedMessage {...messages.home} /></Menu.Item>
+          <Menu.Item key="2"><FormattedMessage {...messages.features} /></Menu.Item>
+        </Menu>
+          {/* <HeaderLink to="/">
+            <FormattedMessage {...messages.home} />
+          </HeaderLink>
+          <HeaderLink to="/features">
+            <FormattedMessage {...messages.features} />
+          </HeaderLink> */}
+        </Header>
+      </Layout>
     </div>
   );
 }
