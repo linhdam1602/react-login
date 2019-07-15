@@ -1,43 +1,106 @@
 /**
+ * Button Component
  *
- * Button.js
+ * @prop {string} theme: theme of button (info, secondary, warning, danger, cancel, pink and default (no specify `theme` props))
+ * @prop {bool} outline: No background color
+ * @prop {bool} small: make button smaller
+ * @prop {bool} disabled: make button disabled
+ * @prop {bool} circle: make circle button
+ * @prop {bool} capitalize: capitalize first letter of each word in label
+ * @prop {bool} uppercase: capitalize all letter in label
  *
- * A common button, if you pass it a prop "route" it'll render a link to a react-router route
- * otherwise it'll render a link with an onclick
  */
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { colorConfig } from 'config/style';
 
-import React, { Children } from 'react';
-import PropTypes from 'prop-types';
+function getColor(props) {
+  const { theme, outline } = props;
+  let background;
+  let text;
+  let border;
 
-import A from './A';
-import StyledButton from './StyledButton';
-import Wrapper from './Wrapper';
+  switch (theme) {
+    case 'primary':
+      background = colorConfig.primary;
+      border = colorConfig.primary;
+      text = colorConfig.whiteText;
+      break;
 
-function Button(props) {
-  // Render an anchor tag
-  let button = (
-    <A href={props.href} onClick={props.onClick}>
-      {Children.toArray(props.children)}
-    </A>
-  );
-
-  // If the Button has a handleRoute prop, we want to render a button
-  if (props.handleRoute) {
-    button = (
-      <StyledButton onClick={props.handleRoute}>
-        {Children.toArray(props.children)}
-      </StyledButton>
-    );
+    default:
+      background = colorConfig.darkPrimary;
+      border = colorConfig.darkPrimary;
+      text = colorConfig.whiteText;
+      break;
   }
 
-  return <Wrapper>{button}</Wrapper>;
+  if (outline) {
+    text = colorConfig.darkPrimary;
+    background = colorConfig.whiteText;
+  }
+
+  return { background, text, border };
 }
 
-Button.propTypes = {
-  handleRoute: PropTypes.func,
-  href: PropTypes.string,
-  onClick: PropTypes.func,
-  children: PropTypes.node.isRequired,
-};
+/* eslint-disable indent */
+const Button = styled.button`
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  touch-action: manipulation;
+  font-size: 14px;
+  line-height: 21px;
+  min-height: 40px;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  padding: 6px 25px;
+  border-radius: 5px;
+  border: 1px ${colorConfig.borderInput} solid;
+  min-width: 120px;
 
-export default Button;
+  :hover {
+    transition: all 0.3s ease-in-out;
+  }
+
+  :focus,
+  :active {
+    outline: none !important;
+    box-shadow: none;
+  }
+
+  ${(props) => {
+    const { background, text, border } = getColor(props);
+    return css`
+      background-color: ${background};
+      color: ${text};
+      border-color: ${border};
+    `;
+  }};
+
+  ${(props) => props.uppercase && 'text-transform: uppercase'};
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      opacity: 0.65;
+      cursor: not-allowed;
+      :hover {
+        filter: brightness(100%);
+      }
+    `}
+
+  ${(props) =>
+    props.width &&
+    css`
+      width: ${props.width};
+      min-width: ${props.width};
+    `};
+
+  ${(props) =>
+    props.maxWidth &&
+    css`
+      width: 100%;
+    `};
+`;
+
+export default (props) => <Button type="button" {...props} />;

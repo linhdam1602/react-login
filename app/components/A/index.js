@@ -1,15 +1,28 @@
 /**
- * A link to a certain page, an anchor tag
+ *
+ * A component
+ * render <a></a> tag
+ *
+ * @prop {string} fontSize: 20px, 1.5rem, ...
  */
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import colorConfig from 'config/style';
 
-const A = styled.a`
-  color: #41addd;
+export default styled.a`
+  color: ${colorConfig.linkColor} !important;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
-  &:hover {
-    color: #6cc0e5;
+  :hover {
+    color: ${colorConfig.linkColor} !important;
   }
-`;
 
-export default A;
+  ${props =>
+    props.fontSize &&
+    css`
+      font-size: ${props.fontSize};
+    `};
+`;
